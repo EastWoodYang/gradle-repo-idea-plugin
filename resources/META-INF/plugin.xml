@@ -1,0 +1,37 @@
+<idea-plugin>
+    <id>com.eastwood.tools.idea.repo</id>
+    <name>Gradle Repo</name>
+    <version>1.0</version>
+    <vendor email="ycdyng@gmail.com" url="https://github.com/EastWoodYang">EastWood Yang</vendor>
+
+    <description><![CDATA[
+      Provides an action which allow you sync or bind remote origin when you modified repo.xml.<br>.<br>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      <!--Add change notes here.<br>-->
+      <!--<em>most HTML tags may be used</em>-->
+    <!--]]>-->
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="173.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+    <depends>org.jetbrains.android</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <projectService serviceImplementation="com.eastwood.tools.idea.RepoFileState"/>
+        <editorNotificationProvider implementation="com.eastwood.tools.idea.ProjectRepoStatusNotificationProvider"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>
