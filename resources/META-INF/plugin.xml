@@ -5,7 +5,7 @@
     <vendor email="ycdyng@gmail.com" url="https://github.com/EastWoodYang">EastWood Yang</vendor>
 
     <description><![CDATA[
-      Provides an action which allow you sync or bind remote origin when you modified repo.xml.<br>.<br>
+      Provides an action which allow you sync and remote origin repository when you modified repo.xml.<br>.<br>
     ]]></description>
 
     <change-notes><![CDATA[

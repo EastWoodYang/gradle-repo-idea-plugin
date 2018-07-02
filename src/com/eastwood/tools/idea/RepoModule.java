@@ -4,5 +4,6 @@ public class RepoModule {
 
     public String name;
     public String path;
+    public boolean isModule;
 
 }

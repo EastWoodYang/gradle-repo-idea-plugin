@@ -219,15 +219,13 @@ public class RepoFileState {
     }
 
     public void checkBindStateOfModules(Module module, VirtualFile repoFile) {
-        List<RepoModule> availableModules = getAvailableModules(repoFile);
+        List<RepoModule> availableModules = getAvailableModules(module, repoFile);
         VirtualFile moduleFile = module.getModuleFile();
         if (moduleFile == null) return;
-        String modulePath = moduleFile.getParent().getPath();
         List<RepoModule> unboundModuleList = new ArrayList<>();
         for (int i = 0; i < availableModules.size(); i++) {
             String path = availableModules.get(i).path;
-            File pathFile = new File(modulePath, path);
-            File git = new File(pathFile, ".git");
+            File git = new File(path, ".git");
             if (!git.exists()) {
                 unboundModuleList.add(availableModules.get(i));
             }
@@ -254,6 +252,24 @@ public class RepoFileState {
         return myUnBoundModules;
     }
 
+    public void updateBindStateOfModule() {
+        List<Module> moduleList = new ArrayList<>();
+        Set<Module> keySet = myUnBoundModules.keySet();
+        for (Module module : keySet) {
+            moduleList.add(module);
+        }
+        for(Module module : moduleList) {
+            VirtualFile moduleFile = module.getModuleFile();
+            if(moduleFile == null) continue;
+
+            File repoPath = new File(moduleFile.getParent().getPath(), "repo.xml");
+            VirtualFile repoFile = VfsUtil.findFileByIoFile(repoPath, false);
+            if(repoFile != null && repoFile.exists()) {
+                checkBindStateOfModules(module, repoFile);
+            }
+        }
+    }
+
     public boolean isSync() {
         return isSync;
     }
@@ -273,7 +289,7 @@ public class RepoFileState {
         });
     }
 
-    private List<RepoModule> getAvailableModules(VirtualFile repoFile) {
+    private List<RepoModule> getAvailableModules(Module module, VirtualFile repoFile) {
         List<RepoModule> availableModules = new ArrayList<>();
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -294,6 +310,18 @@ public class RepoFileState {
             }
 
             Element projectElement = (Element) projectNodeList.item(0);
+            String origin = projectElement.getAttribute("origin");
+            if (origin == null || origin.trim().equals("")) {
+                return availableModules;
+            }
+
+            String modulePath = module.getModuleFile().getParent().getCanonicalPath();
+            RepoModule repoModule = new RepoModule();
+            repoModule.name = module.getName();
+            repoModule.path = modulePath;
+            repoModule.isModule = true;
+            availableModules.add(repoModule);
+
             // project include module
             NodeList includeModuleNodeList = projectElement.getElementsByTagName("include");
             for (int i = 0; i < includeModuleNodeList.getLength(); i++) {
@@ -313,7 +341,7 @@ public class RepoFileState {
                 // filter module
                 if (includeModuleList.contains(name)) continue;
 
-                String origin = moduleElement.getAttribute("origin");
+                origin = moduleElement.getAttribute("origin");
                 if (origin == null || origin.trim().equals("")) {
                     continue;
                 }
@@ -329,16 +357,34 @@ public class RepoFileState {
                 } else {
                     path = local + "/" + name;
                 }
-
-                RepoModule repoModule = new RepoModule();
+                File moduleFile = new File(modulePath, path);
+                VirtualFile virtualFile = VfsUtil.findFileByIoFile(moduleFile, false);
+                if (virtualFile == null) {
+                    continue;
+                }
+                repoModule = new RepoModule();
                 repoModule.name = name;
-                repoModule.path = path;
+                repoModule.path = virtualFile.getCanonicalPath();
+                repoModule.isModule = isModule(virtualFile);
                 availableModules.add(repoModule);
             }
         } catch (Exception e) {
 
         }
         return availableModules;
+    }
+
+    private boolean isModule(VirtualFile virtualFile) {
+        Module module = ProjectFileIndex.getInstance(RepoFileState.this.myProject).getModuleForFile(virtualFile);
+        if (module != null) {
+            VirtualFile moduleFile = module.getModuleFile();
+            if (moduleFile != null) {
+                if (moduleFile.getParent().getPath().equals(virtualFile.getPath())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private static class RepoFileChangeListener extends PsiTreeChangeAdapter {

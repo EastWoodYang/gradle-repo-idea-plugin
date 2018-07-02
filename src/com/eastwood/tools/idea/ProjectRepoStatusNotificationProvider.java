@@ -66,7 +66,6 @@ public class ProjectRepoStatusNotificationProvider extends EditorNotifications.P
                 } else {
                     return oldPanel;
                 }
-
             }
         }
         if (repoFileState.areRepoFilesModified()) {
@@ -94,19 +93,29 @@ public class ProjectRepoStatusNotificationProvider extends EditorNotifications.P
         StaleRepoBindNotificationPanel(Map<Module, List<RepoModule>> unBoundModules) {
             this.unBoundModules = unBoundModules;
 
-            setText("Some module unbound remote origin module, need to bind remote origin before push.");
+            setText("Some module is unbound remote origin repository, need to bind remote before push.");
 
             createActionLabel("Bind Now", new Runnable() {
                 @Override
                 public void run() {
                     running = true;
                     repoFileState.notifyUser();
+                    String defaultTaskName = "bindRemoteRepository";
                     List<String> tasks = new ArrayList<>();
                     Set<Module> keySet = unBoundModules.keySet();
                     for (Module module : keySet) {
                         List<RepoModule> repoModules = unBoundModules.get(module);
                         for (RepoModule repoModule : repoModules) {
-                            tasks.add("bind" + firstUpperCase(module.getName()) + firstUpperCase(repoModule.name) + "RemoteOrigin");
+                            if (repoModule.isModule) {
+                                if (!tasks.contains(defaultTaskName)) {
+                                    tasks.add(defaultTaskName);
+                                }
+                            } else {
+                                String taskName = "bind" + firstUpperCase(repoModule.name) + "RemoteRepository";
+                                if (!tasks.contains(taskName)) {
+                                    tasks.add(taskName);
+                                }
+                            }
                         }
                     }
                     if (tasks.size() == 0) {
@@ -116,11 +125,13 @@ public class ProjectRepoStatusNotificationProvider extends EditorNotifications.P
                     GradleTaskExecutor.executeTask(myProject, String.join(" ", tasks), new TaskCallback() {
                         @Override
                         public void onSuccess() {
+                            repoFileState.updateBindStateOfModule();
                             running = false;
                         }
 
                         @Override
                         public void onFailure() {
+                            repoFileState.updateBindStateOfModule();
                             running = false;
                         }
                     });
