@@ -1,17 +1,23 @@
 <idea-plugin>
     <id>com.eastwood.tools.idea.repo</id>
     <name>Gradle Repo</name>
-    <version>1.0</version>
+    <version>1.1</version>
     <vendor email="ycdyng@gmail.com" url="https://github.com/EastWoodYang">EastWood Yang</vendor>
 
     <description><![CDATA[
-      Provides an action which allow you sync and remote origin repository when you modified repo.xml.<br>.<br>
+      Allows working with <a href="https://github.com/EastWoodYang/Gradle-Repo">Gradle-Repo</a>.
+      The following features are available:
+      <br>
+      <ul>
+        <li>Provides an action which allow you sync and remote origin repository when you modified repo.xml.</li>
+        <li>Support create Repo Tag, could be find in [VCS] -> [Git] -> [Create Repo Tag...].</li>
+      </ul>
+      <br>
     ]]></description>
 
     <change-notes><![CDATA[
-      <!--Add change notes here.<br>-->
-      <!--<em>most HTML tags may be used</em>-->
-    <!--]]>-->
+      Supported create git Tag, which point to the current local branch.<br>
+    ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
@@ -23,6 +29,7 @@
     <depends>com.intellij.modules.lang</depends>
     -->
     <depends>org.jetbrains.android</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
@@ -32,6 +39,11 @@
 
     <actions>
         <!-- Add your actions here -->
+
+        <action id="Repo.CreateRepoTag" class="com.eastwood.tools.idea.CreateTag" text="Create Repo Tag..." >
+            <add-to-group group-id="GitRepositoryActions" anchor="before" relative-to-action="Git.Branches" />
+        </action>
+
     </actions>
 
 </idea-plugin>
