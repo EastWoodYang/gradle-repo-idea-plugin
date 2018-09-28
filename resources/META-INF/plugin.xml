@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.eastwood.tools.idea.repo</id>
     <name>Gradle Repo</name>
-    <version>1.1</version>
+    <version>1.2</version>
     <vendor email="ycdyng@gmail.com" url="https://github.com/EastWoodYang">EastWood Yang</vendor>
 
     <description><![CDATA[
@@ -16,12 +16,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
-      Supported create git Tag, which point to the current local branch.<br>
+      Compatible with Android Studio 3.2.<br>
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
-    <idea-version since-build="173.0"/>
+    <idea-version since-build="181.0"/>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->

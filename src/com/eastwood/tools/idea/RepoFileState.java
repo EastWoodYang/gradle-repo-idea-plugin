@@ -395,53 +395,44 @@ public class RepoFileState {
             this.myRepoFileState = repoFileState;
         }
 
-        public void beforeChildAddition(@NotNull PsiTreeChangeEvent event) {
-            if (event.getNewChild() != null) {
-                this.processEvent(event, event.getNewChild());
-            } else {
-                this.processEvent(event, event.getChild());
-            }
-
-        }
-
-        public void beforeChildRemoval(@NotNull PsiTreeChangeEvent event) {
-            this.processEvent(event, event.getOldChild());
-        }
-
-        public void beforeChildReplacement(@NotNull PsiTreeChangeEvent event) {
-            this.processEvent(event, event.getNewChild(), event.getOldChild());
-        }
-
-        public void beforeChildMovement(@NotNull PsiTreeChangeEvent event) {
-            this.processEvent(event, event.getChild());
-        }
-
-        public void beforeChildrenChange(@NotNull PsiTreeChangeEvent event) {
-            this.processEvent(event, event.getOldChild(), event.getNewChild());
-        }
-
         public void childAdded(@NotNull PsiTreeChangeEvent event) {
-            if (event.getNewChild() != null) {
-                this.processEvent(event, event.getNewChild());
-            } else {
-                this.processEvent(event, event.getChild());
+            if (event == null) {
+                return;
             }
+
+            this.processEvent(event, event.getChild());
 
         }
 
         public void childRemoved(@NotNull PsiTreeChangeEvent event) {
-            this.processEvent(event, event.getOldChild());
+            if (event == null) {
+                return;
+            }
+
+            this.processEvent(event, event.getChild());
         }
 
         public void childReplaced(@NotNull PsiTreeChangeEvent event) {
+            if (event == null) {
+                return;
+            }
+
             this.processEvent(event, event.getNewChild(), event.getOldChild());
         }
 
         public void childMoved(@NotNull PsiTreeChangeEvent event) {
+            if (event == null) {
+                return;
+            }
+
             this.processEvent(event, event.getChild());
         }
 
         public void childrenChanged(@NotNull PsiTreeChangeEvent event) {
+            if (event == null) {
+                return;
+            }
+
             this.processEvent(event, event.getOldChild(), event.getNewChild());
         }
 
@@ -477,7 +468,7 @@ public class RepoFileState {
         }
     }
 
-    private class SyncListener extends GradleSyncListener.Adapter {
+    private class SyncListener implements GradleSyncListener {
 
         private SyncListener() {
         }

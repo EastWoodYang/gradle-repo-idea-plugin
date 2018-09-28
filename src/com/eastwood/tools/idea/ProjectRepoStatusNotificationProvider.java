@@ -36,7 +36,7 @@ public class ProjectRepoStatusNotificationProvider extends EditorNotifications.P
     public ProjectRepoStatusNotificationProvider(@NotNull Project project) {
         myProject = project;
         repoFileState = RepoFileState.getInstance(myProject);
-        GradleSyncState.subscribe(this.myProject, new GradleSyncListener.Adapter() {
+        GradleSyncState.subscribe(this.myProject, new GradleSyncListener() {
 
             @Override
             public void syncSucceeded(@NotNull Project project) {
