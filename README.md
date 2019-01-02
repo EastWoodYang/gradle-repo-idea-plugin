@@ -9,5 +9,11 @@ The following features are available:
 
 <img src='https://github.com/EastWoodYang/gradle-repo-idea-plugin/blob/master/pictures/1.png'/>
 
-
 <img src='https://github.com/EastWoodYang/gradle-repo-idea-plugin/blob/master/pictures/2.png'/>
+
+**Install Step**:
+1. open [File] -> [Settings...] -> [plugins] -> [Browse repositories...]
+2. and search name **Gradle Repo**
+
+**Plugin detail**:
+[https://plugins.jetbrains.com/plugin/10876-gradle-repo](https://plugins.jetbrains.com/plugin/10876-gradle-repo)
