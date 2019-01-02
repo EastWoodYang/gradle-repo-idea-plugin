@@ -1,4 +1,4 @@
-package com.eastwood.tools.idea
+package com.eastwood.tools.idea.repo
 
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -12,7 +12,7 @@ import git4idea.repo.GitRepositoryManager
 
 import static git4idea.GitUtil.HEAD
 
-class CreateTag extends AnAction {
+class CreateTagAction extends AnAction {
 
     @Override
     void actionPerformed(AnActionEvent e) {

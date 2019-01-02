@@ -5,42 +5,38 @@
     <vendor email="ycdyng@gmail.com" url="https://github.com/EastWoodYang">EastWood Yang</vendor>
 
     <description><![CDATA[
-      Allows working with <a href="https://github.com/EastWoodYang/Gradle-Repo">Gradle-Repo</a>.
+      Allows working with <a href="https://github.com/EastWoodYang/Gradle-Repo">Gradle-Repo</a> plugin.
       The following features are available:
       <br>
       <ul>
-        <li>Provides an action which allow you sync and remote origin repository when you modified repo.xml.</li>
+        <li>Provides an action which allow you sync project when you modified repo.xml or repo-local.xml files.</li>
         <li>Support create Repo Tag, could be find in [VCS] -> [Git] -> [Create Repo Tag...].</li>
       </ul>
       <br>
     ]]></description>
 
     <change-notes><![CDATA[
-      Compatible with Android Studio 3.2.<br>
+      1. Support local repo.xml.<br>
+      2. Remove bind remote origin repository feature.
     ]]>
     </change-notes>
 
     <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
     <idea-version since-build="181.0"/>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
     <depends>org.jetbrains.android</depends>
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
-        <projectService serviceImplementation="com.eastwood.tools.idea.RepoFileState"/>
-        <editorNotificationProvider implementation="com.eastwood.tools.idea.ProjectRepoStatusNotificationProvider"/>
+        <projectService serviceImplementation="com.eastwood.tools.idea.repo.RepoFileState"/>
+        <editorNotificationProvider implementation="com.eastwood.tools.idea.repo.ProjectRepoStatusNotificationProvider"/>
     </extensions>
 
     <actions>
         <!-- Add your actions here -->
 
-        <action id="Repo.CreateRepoTag" class="com.eastwood.tools.idea.CreateTag" text="Create Repo Tag..." >
+        <action id="Repo.CreateRepoTag" class="com.eastwood.tools.idea.repo.CreateTagAction" text="Create Repo Tag..." >
             <add-to-group group-id="GitRepositoryActions" anchor="before" relative-to-action="Git.Branches" />
         </action>
 
