@@ -16,4 +16,5 @@ The following features are available:
 2. and search name **Gradle Repo**
 
 **Plugin detail**:
+
 [https://plugins.jetbrains.com/plugin/10876-gradle-repo](https://plugins.jetbrains.com/plugin/10876-gradle-repo)
