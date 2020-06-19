@@ -18,3 +18,6 @@ The following features are available:
 **Plugin detail**:
 
 [https://plugins.jetbrains.com/plugin/10876-gradle-repo](https://plugins.jetbrains.com/plugin/10876-gradle-repo)
+
+## Question or Idea
+有问题或想法可以直接加我微信: EastWoodYang
